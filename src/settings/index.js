@@ -31,6 +31,16 @@ registerBlockType( 'myplugin/book-settings', {
 		const { className, attributes, setAttributes } = props;
 		const { bookTitle, author } = attributes;
 
+		const getBlockList = () => wp.data.select( 'core/block-editor' ).getBlocks();
+		let blockList = getBlockList();
+		wp.data.subscribe( () => {
+			const newBlockList = getBlockList();
+			if ( newBlockList.length < blockList.length && newBlockList.every( block => block.name !== 'myplugin/book-settings' ) ) {
+				wp.data.dispatch( 'core/block-editor' ).resetBlocks( blockList );
+			}
+			blockList = newBlockList;
+		} );
+
 		return (
 			<div className={ className }>
 				<TextControl label="Book Title" value={ bookTitle || '' } onChange={ ( value ) => {

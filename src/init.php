@@ -127,7 +127,7 @@ function myplugin_book_init() {
         'labels'             => $labels,
         'public'             => true,
         'show_in_rest'       => true,
-        'template_lock'      => 'all',
+        'template_lock'      => false,
         'template'           => [
             ['myplugin/book-settings',[],[
                 ['core/paragraph']
